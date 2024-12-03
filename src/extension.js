@@ -36,6 +36,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.activate = activate;
 exports.deactivate = deactivate;
 const vscode = __importStar(require("vscode"));
+const sidebarView_1 = require("./sidebarView"); // Assuming SidebarProvider is imported from sidebarView.ts
 const commands = [
     { command: "git status", description: "Show the status of changes in the repository" },
     { command: "git add .", description: "Stage all changes for commit" },
@@ -69,15 +70,21 @@ const commands = [
     { command: "gh gist delete <gist_id>", description: "Delete a GitHub gist" }
 ];
 function activate(context) {
-    // Register the 'celsodev' command
-    const disposable = vscode.commands.registerCommand('github-command-guide.celsodev', () => {
-        const terminal = vscode.window.createTerminal({ name: "GitHub Command Guide" });
-        terminal.show();
-        // Display the list of commands in the terminal
-        terminal.sendText('GitHub Command Guide:');
-        commands.forEach(cmd => {
-            terminal.sendText(`${cmd.command}: ${cmd.description}`);
+    // Create SidebarProvider with commands
+    const sidebarProvider = new sidebarView_1.SidebarProvider(context, commands);
+    // Register Webview View provider for the sidebar
+    context.subscriptions.push(vscode.window.registerWebviewViewProvider("githubCommands.sidebar", sidebarProvider));
+    // Register helloWorld command
+    const disposable = vscode.commands.registerCommand('github-command-guide.celsodev', async () => {
+        const commandList = commands.map((cmd) => `${cmd.command}: ${cmd.description}`);
+        const selection = await vscode.window.showQuickPick(commandList, {
+            placeHolder: 'Select a GitHub command',
         });
+        if (selection) {
+            const [command] = selection.split(': ');
+            vscode.env.clipboard.writeText(command);
+            vscode.window.showInformationMessage(`Command copied: ${command}`);
+        }
     });
     context.subscriptions.push(disposable);
 }

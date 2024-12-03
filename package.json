@@ -3,7 +3,7 @@
   "displayName": "GitHub Command Guide",
   "description": "GitHub Command Guide is a handy tool for developers to quickly learn and reference Git commands and workflows. Whether you're a beginner or an experienced Git user, this extension provides step-by-step guidance, practical examples, and best practices to streamline your version control experience. Perfect for enhancing productivity and mastering GitHub's powerful features.",
   "version": "0.0.1",
-  "publisher": "Celso M. Puerto Jr.",
+  "publisher": "celso-puerto",
   "repository": {
     "type": "git",
     "url": "https://github.com/celsopuerto/github-command-guide"
@@ -22,11 +22,7 @@
     "commands": [
       {
         "command": "github-command-guide.celsodev",
-        "title": "Display All GitHub Commands in Terminal"
-      },
-      {
-        "command": "celsodev",
-        "title": "Display All GitHub Commands in Terminal"
+        "title": "celsodev"
       }
     ],
     "viewsContainers": {

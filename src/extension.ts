@@ -35,17 +35,30 @@ const commands = [
 ];
 
 export function activate(context: vscode.ExtensionContext) {
-  // Register the 'celsodev' command
-  const disposable = vscode.commands.registerCommand('github-command-guide.celsodev', () => {
-    const terminal = vscode.window.createTerminal({ name: "GitHub Command Guide" });
-    terminal.show();
+  // Create SidebarProvider with commands
+  const sidebarProvider = new SidebarProvider(context, commands);
 
-    // Display the list of commands in the terminal
-    terminal.sendText('GitHub Command Guide:');
-    commands.forEach(cmd => {
-      terminal.sendText(`${cmd.command}: ${cmd.description}`);
-    });
-  });
+  // Register Webview View provider for the sidebar
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider("githubCommands.sidebar", sidebarProvider)
+  );
+
+  // Register helloWorld command
+  const disposable = vscode.commands.registerCommand(
+    'github-command-guide.celsodev',
+    async () => {
+      const commandList = commands.map((cmd) => `${cmd.command}: ${cmd.description}`);
+      const selection = await vscode.window.showQuickPick(commandList, {
+        placeHolder: 'Select a GitHub command',
+      });
+
+      if (selection) {
+        const [command] = selection.split(': ');
+        vscode.env.clipboard.writeText(command);
+        vscode.window.showInformationMessage(`Command copied: ${command}`);
+      }
+    }
+  );
 
   context.subscriptions.push(disposable);
 }
