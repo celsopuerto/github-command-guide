@@ -9,4 +9,4 @@ This Visual Studio Code extension provides a set of Git and GitHub commands with
 
 ## Usage
 
-- Use the command `github-command-guide.celsodev` to open the GitHub command guide in a terminal window.
+- Press `CTRL + SHIFT + P` to open command window then type `celsodev`.
