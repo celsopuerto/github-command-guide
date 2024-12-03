@@ -1,0 +1,77 @@
+{
+  "name": "github-command-guide",
+  "displayName": "GitHub Command Guide",
+  "description": "GitHub Command Guide is a handy tool for developers to quickly learn and reference Git commands and workflows. Whether you're a beginner or an experienced Git user, this extension provides step-by-step guidance, practical examples, and best practices to streamline your version control experience. Perfect for enhancing productivity and mastering GitHub's powerful features.",
+  "version": "0.0.1",
+  "publisher": "Celso M. Puerto Jr.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/celsopuerto/github-command-guide"
+  },
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onCommand:celsodev.showCommands"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "github-command-guide.celsodev",
+        "title": "Display All GitHub Commands in Terminal"
+      },
+      {
+        "command": "celsodev",
+        "title": "Display All GitHub Commands in Terminal"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "githubCommands",
+          "title": "GitHub Command Guide",
+          "icon": "resources/icon.png"
+        }
+      ]
+    },
+    "views": {
+      "githubCommands": [
+        {
+          "id": "githubCommands.sidebar",
+          "name": "Command Guide"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run package",
+    "compile": "tsc && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.95.0",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.7.0",
+    "eslint": "^9.13.0",
+    "esbuild": "^0.24.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.6.3",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
+}
